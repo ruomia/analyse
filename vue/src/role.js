@@ -76,6 +76,7 @@ router.beforeEach((to, from, next) => {
             store
                 .dispatch("userInfo")
                 .then(data => {
+                    console.log(data)
                     // 拉取user_info
                     const authRules = data.authRules || [];
                     if (

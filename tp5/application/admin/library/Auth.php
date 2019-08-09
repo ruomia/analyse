@@ -40,7 +40,6 @@ class Auth
         
         // 获取权限
         $roles = $admin->getRoleId();
-        trace($roles, 'role ids');
         // 判断是否有超级管理员权限
         if(!in_array( 1, $roles)) {
             // 根据角色id，获取权限id
@@ -50,6 +49,7 @@ class Auth
         } else {
             $authRules = ['admin'];
         }
+        trace($authRules, 'role ids');
         
         $now = time();
         // 定义令牌中的数据

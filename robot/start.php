@@ -6,7 +6,11 @@ use Beanbun\Middleware\Parser;
 use Beanbun\Lib\Helper;
 
 $beanbun = new Beanbun;
+$beanbun->count = 3;
 $beanbun->seed = 'http://ycsx.top/zl/bm.php?sid=Null-2-0';
+$beanbun->logFile = __DIR__ . '/fangmama_access.log';
+$beanbun->max = 1000;
+$beanbun->interval = 10;
 $beanbun->middleware(new Parser);
 // $beanbun->middleware(new Decode);
 
@@ -29,25 +33,36 @@ Db::$config = [
 ];
 
 $beanbun->afterDownloadPage = function($beanbun) {
-    // print_r($beanbun->data);
     // $content = $beanbun->page;
     // $contents = mb_convert_encoding($beanbun->page, 'UTF-8' ,'GBK');
-    preg_match('/-(\d+)期.*开奖结果.*(\d.*)特码.*(\d+)\(/U', $beanbun->data['content'], $content);
+    preg_match('/-(\d.*)特码.*(\d+)\(.*(\d+)期/U', $beanbun->data['content'], $content);
     $data = [
-        'id' => (int)$content[1],
-        'ball_number' => $content[2],
-        'special_code' => $content[3]
+        'id' => ($content[3] - 1),
+        'ball_number' => $content[1] . '-' . $content[2]
     ];
-    if (!Db::instance('analyse')->has("ball", [
-        "id" => $data['id']
-    ])) {
-        Db::instance('analyse')->insert("ball", $data);
-        print('插入成功');
-
+    $id = $data['id'];
+    if($id){
+        if (!Db::instance('analyse')->has("ball", [
+            "id" => $id
+        ])) {
+            Db::instance('analyse')->insert("ball", $data);
+            // print('插入成功');
+            mylog(date('Y-m-d H:i:s') . ": 插入成功\n");
+    
+        } else {
+            // print('数据重复');
+            mylog(date('Y-m-d H:i:s') . ": 数据重复\n");
+            
+        }
     } else {
-        print('数据重复');
-
+        mylog(date('Y-m-d H:i:s') . ": 数据错误\n");
     }
 
 };
 $beanbun->start();
+
+
+
+function mylog($string = '', $APPEND = true, $file = 'test') {
+    return file_put_contents(__DIR__ . '/log/' . $file . '.log', $string . PHP_EOL, $APPEND ? FILE_APPEND : false);
+}

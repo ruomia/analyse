@@ -19,7 +19,6 @@ class Check
         try
         {
             $jwt = JWTCHECK::decode($jwt, Env::get('jwt.key'), array('HS256'));
-            
             $request->admin_id = $jwt->id;
             $request->authRules = $jwt->authRules;
             $request->nickname = $jwt->nickname;
