@@ -58,7 +58,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             userInfo()
                 .then(response => {
-                    console.log('2233', response.data);
                     const data = response.data || {};
                     commit(types.RECEIVE_ADMIN_NAME, data.username);
                     commit(types.RECEIVE_ADMIN_AVATAR, data.avatar);

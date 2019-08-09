@@ -39,10 +39,10 @@
       <el-collapse accordion>
         <el-collapse-item v-for="(v,k) in balls" :key="k">
           <template slot="title">
-            {{v.id}}期 {{v.ball_number}}
+            {{v.issue}}期 {{v.ball_number}}
             <span style="color: #F56C6C;padding-left:10px">{{error}}</span>
           </template>
-          <p>开奖期号: {{v.id}}期</p>
+          <p>开奖期号: {{v.issue}}期</p>
           <p>开奖球号: {{v.ball_number}}</p>
           <p>计划号: {{v.write_number}}</p>
           <p>
@@ -114,7 +114,7 @@ export default {
       this.loading = true;
       planLow(this.query)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           this.loading = false;
           this.lists = response.data.list || [];
           this.total = response.data.total || 0;

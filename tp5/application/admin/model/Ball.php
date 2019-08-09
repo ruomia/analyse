@@ -11,4 +11,16 @@ class Ball extends Backend
     //     return explode('-', $value);
     //     // return $status[$value];
     // }
+
+    public static function getLists($where=[], $order=[])
+    {
+        
+        $lists = self::withSearch(['type'], $where)
+                    ->select()
+                    ->toArray();
+
+        $res['total'] = self::count();
+        $res['list'] = $lists;
+        return $res;
+    }
 }

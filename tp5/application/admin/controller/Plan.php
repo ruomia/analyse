@@ -52,7 +52,7 @@ class Plan extends Backend
     // 低频彩分析
     public function low()
     {
-        $balls = Ball::order('id', 'desc')->select()->toArray();
+        $balls = Ball::order('issue', 'desc')->select()->toArray();
         $plans = PlanModel::select()->toArray();
         foreach($plans as $k => $v) {
             $my_number = explode(',', $v['ball_number']);
@@ -62,7 +62,7 @@ class Plan extends Backend
                 // array_key_exists("$key", $array)
                 // $key = substr(($k1+1), -1);
 
-                $key = substr(($ball['id']-1), -1);
+                $key = substr(($ball['issue']-1), -1);
                 if(array_key_exists($key, $my_number)) {
                     $ball_number = explode('-', $ball['ball_number']);
                     $write_number = explode('-', $my_number[$key]);

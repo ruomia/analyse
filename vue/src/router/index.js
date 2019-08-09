@@ -17,6 +17,8 @@ import authRole from "../views/auth/Role.vue";
 import plan from "../views/plan/index.vue";
 
 import low from "../views/low/index.vue";
+// 开奖号管理
+import ball from "../views/ball/index.vue";
 
 // Vue.use(VueRouter);
 
@@ -178,6 +180,22 @@ export const asyncRouterMap = [
             {
                 path: "index",
                 component: low
+            }
+        ]
+    },
+    {
+        path: "/ball",
+        component: Home,
+        icon: "leixing",
+        name: "开奖号管理",
+        meta: {
+            authRule: ["ball/index"]
+        },
+        noDropdown: true,
+        children: [
+            {
+                path: "index",
+                component: ball
             }
         ]
     }

@@ -61,6 +61,7 @@ class Backend extends Controller
         //     $order = '';
         // }
         $res = $this->model::getLists($where, $order);
+        
        
         return ResultVo::success($res);
     }
@@ -106,9 +107,6 @@ class Backend extends Controller
     public function edit()
     {
         $params = Request::post();
-        if (empty($params['id']) || empty($params['name'])){
-            return ResultVo::error(ErrorCode::DATA_VALIDATE_FAIL);
-        }
         // 从数据库中查询记录
         $row = $this->model::get($params['id']);
         if (!$row)

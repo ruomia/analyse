@@ -35,15 +35,20 @@ Db::$config = [
 $beanbun->afterDownloadPage = function($beanbun) {
     // $content = $beanbun->page;
     // $contents = mb_convert_encoding($beanbun->page, 'UTF-8' ,'GBK');
-    preg_match('/-(\d.*)特码.*(\d+)\(.*(\d+)期/U', $beanbun->data['content'], $content);
+    // preg_match('/-(\d.*)特码.*(\d+)\(.*(\d+)期/U', $beanbun->data['content'], $content);
+    preg_match('/-(\d+)期.*(\d.*)特码.*(\d+)\(/U', $beanbun->data['content'], $content);
+    // $data = [
+    //     'issue' => ($content[3] - 1),
+    //     'ball_number' => $content[1] . '-' . $content[2]
+    // ];
     $data = [
-        'id' => ($content[3] - 1),
-        'ball_number' => $content[1] . '-' . $content[2]
+        'issue' => (int)$content[1],
+        'ball_number' => $content[2] . '-' . $content[3]
     ];
-    $id = $data['id'];
-    if($id){
+    $issue = $data['issue'];
+    if($issue){
         if (!Db::instance('analyse')->has("ball", [
-            "id" => $id
+            "issue" => $issue
         ])) {
             Db::instance('analyse')->insert("ball", $data);
             // print('插入成功');

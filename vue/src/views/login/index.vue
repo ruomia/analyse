@@ -103,7 +103,7 @@ export default {
                     this.$store
                         .dispatch("loginName", this.ruleForm)
                         .then(response => {
-                            console.log(response)
+                            // console.log(response)
                             this.loading = false;
                             if (response.code) {
                                 this.$message.error(response.message);
