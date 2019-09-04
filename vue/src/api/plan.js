@@ -39,3 +39,12 @@ export function planLow(query) {
         params: query
     })
 }
+
+// 低频彩分析
+export function planOne(query) {
+    return axios({
+        url: "/admin/plan/one",
+        method: "get",
+        params: query
+    })
+}

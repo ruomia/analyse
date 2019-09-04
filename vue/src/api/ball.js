@@ -12,6 +12,14 @@ export function ballList(query) {
     });
 }
 
+// 获取列表
+export function ballRead(id) {
+    return axios({
+        url: "/admin/ball/read",
+        method: "get",
+        params: { id: id }
+    });
+}
 // 保存
 export function ballSave(data, formName, method = "post") {
     let url = formName === "add" ? "/admin/ball/add" : "/admin/ball/edit";

@@ -89,4 +89,36 @@ class Plan extends Backend
         $res['total'] = PlanModel::count();
         return ResultVo::success($res);
     }
+    public function one(){
+        $ball_id = Request::get('id', 1);
+        $ball = Ball::get($ball_id);
+        if(!$ball) {
+            return ResultVo::error(ErrorCode::DATA_NOT, "记录不存在");
+        }
+        // 将开奖球号转换为数组
+        $ball_number = explode('-', $ball['ball_number']);
+
+        $plans = PlanModel::select()->toArray();
+        foreach($plans as $k => $v) {
+            $my_number = explode(',', $v['ball_number']);
+        
+            $key = substr(($ball['issue']-1), -1);
+            if(array_key_exists($key, $my_number)) {
+                $write_number = explode('-', $my_number[$key]);
+                $result = array_intersect($ball_number, $write_number);
+                // dump($v['ball_number']);
+                $plans[$k]['size'] = count($result);
+                $plans[$k]['sign_number'] = $my_number[$key];
+                // $balls[$k1]['size'] = $v['ball_number'];
+                // $data[$key][] = array_merge(['size'=>$v['ball_number'], array($ball)]); 
+
+            } else {
+                $plans[$k]['sign_number'] = "";
+            }
+        }
+        $res['list'] = $plans;
+        $res['ball'] = $ball;
+        $res['total'] = PlanModel::count();
+        return ResultVo::success($res);
+    }
 }

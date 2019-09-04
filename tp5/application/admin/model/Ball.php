@@ -15,7 +15,7 @@ class Ball extends Backend
     public static function getLists($where=[], $order=[])
     {
         
-        $lists = self::withSearch(['type'], $where)
+        $lists = self::withSearch(['issue'], $where)
                     ->select()
                     ->toArray();
 

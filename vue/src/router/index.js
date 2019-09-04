@@ -20,6 +20,8 @@ import low from "../views/low/index.vue";
 // 开奖号管理
 import ball from "../views/ball/index.vue";
 
+import ballPlan from "../views/ball/plan.vue";
+
 // Vue.use(VueRouter);
 
 const err401 = r =>
@@ -196,6 +198,10 @@ export const asyncRouterMap = [
             {
                 path: "index",
                 component: ball
+            },
+            {
+                path: "plan",
+                component: ballPlan
             }
         ]
     }

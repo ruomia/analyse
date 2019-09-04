@@ -1,11 +1,14 @@
 <template>
   <div>
     <el-table v-loading="loading" :data="lists" style="width: 100%;">
-      <el-table-column label="编号" prop="id"></el-table-column>
-      <el-table-column label="类型" prop="type_text"></el-table-column>
+      <el-table-column label="计划名称" prop="description"></el-table-column>
+      <el-table-column label="计划类型" prop="type_text"></el-table-column>
       <el-table-column label="球数" prop="number"></el-table-column>
-      <el-table-column label="描述" prop="description"></el-table-column>
-      <el-table-column label="错误次数" prop="error" sortable></el-table-column>
+      <el-table-column label="计划状态" prop="error" sortable>
+        <template slot-scope="scope">
+            <p>{{ scope.row.error }}期未中</p>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" fixed="right" align="center">
         <template slot-scope="scope">
@@ -57,7 +60,6 @@
         <el-button type="primary" @click.native="formSubmit()" :loading="formLoading">提交</el-button>
       </div>
     </el-dialog>
-   
 
     <el-drawer
       title="10期明细"
@@ -67,12 +69,7 @@
       :modal="false"
     >
       <el-timeline :reverse="false" style="margin-left:20px;">
-        <el-timeline-item
-          v-for="(v, k) in ball_list"
-          :key="k"
-          :timestamp="'第'+(k+1)+'期'">
-          {{v}}
-        </el-timeline-item>
+        <el-timeline-item v-for="(v, k) in ball_list" :key="k" :timestamp="'第'+(k+1)+'期'">{{v}}</el-timeline-item>
       </el-timeline>
     </el-drawer>
   </div>
@@ -102,7 +99,6 @@ export default {
       drawer: false,
       direction: "rtl",
       ball_list: []
-
     };
   },
   methods: {
@@ -114,7 +110,7 @@ export default {
       this.loading = true;
       planLow(this.query)
         .then(response => {
-          // console.log(response);
+          console.log(response);
           this.loading = false;
           this.lists = response.data.list || [];
           this.total = response.data.total || 0;
@@ -164,10 +160,10 @@ export default {
     handleClose(done) {
       done();
       // this.$confirm("确认关闭？")
-        // .then(_ => {
-          // done();
-        // })
-        // .catch(_ => {});
+      // .then(_ => {
+      // done();
+      // })
+      // .catch(_ => {});
     }
   },
   mounted() {},

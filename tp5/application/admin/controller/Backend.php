@@ -38,8 +38,8 @@ class Backend extends Controller
     public function initialize()
     {
         $controllerName = Request::controller();
-        trace($controllerName, 'controllerName');
-    // public $model = ';
+        // trace($controllerName, 'controllerName');
+  
         $this->model = 'app\admin\model\\' . $controllerName;
 
     }
@@ -55,19 +55,27 @@ class Backend extends Controller
         //     $where[] = ['status','=',intval($status)];
         //     $order = '';
         // }
-        // $name = Request::get('name', '');
-        // if (!empty($name)){
-        //     $where[] = ['name', 'like', $name . '%'];
-        //     $order = '';
-        // }
         $res = $this->model::getLists($where, $order);
         
        
         return ResultVo::success($res);
     }
-    // /**
-    //  * 添加
-    //  */
+
+    public function read()
+    {
+        $id = Request::get('id', '');
+        if (empty($id)){
+            return ResultVo::error(ErrorCode::DATA_VALIDATE_FAIL);
+        }
+        $res = $this->model::get($id);
+        if(!$res) {
+            return ResultVo::error(ErrorCode::DATA_NOT, "记录不存在");
+        }
+        return ResultVo::success($res);
+    }
+    /**
+     * 添加
+     */
     public function add()
     {
         if (Request::isPost()) {

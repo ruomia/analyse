@@ -19,7 +19,7 @@
     </el-form>
     <el-table v-loading="loading" :data="list" style="width: 100%;">
       <el-table-column label="编号" prop="id"></el-table-column>
-      <el-table-column label="类期号型" prop="issue"></el-table-column>
+      <el-table-column label="期号" prop="issue"></el-table-column>
       <el-table-column label="开奖号" prop="ball_number"></el-table-column>
 
       <el-table-column label="操作" fixed="right" align="center">
@@ -37,6 +37,9 @@
             :loading="deleteLoading"
           >
             <i class="el-icon-delete"></i>
+          </el-button>
+          <el-button type="text">
+            <router-link class="el-icon-more" :to="{path:'/ball/plan', query: {id: scope.row.id}}"></router-link>
           </el-button>
         </template>
       </el-table-column>

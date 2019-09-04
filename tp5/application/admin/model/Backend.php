@@ -25,6 +25,12 @@ class Backend extends Model
             $query->where('type', '=', intval($value));
         }
     }
+    public function searchIssueAttr($query, $value, $data)
+    {
+        if(!empty($value)){
+            $query->where('issue', '=', intval($value));
+        }
+    }
 
     
 }
